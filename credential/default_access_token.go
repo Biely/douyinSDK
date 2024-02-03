@@ -17,17 +17,9 @@ import (
 const (
 	// accessTokenURL 获取access_token的接口
 	accessTokenURL = "https://open.douyin.com/oauth/client_token/"
-	// stableAccessTokenURL 获取稳定版access_token的接口
+	// stableAccessTokenURL 获取沙盒的接口
 	sandBoxAccessTokenURL = "https://open-sandbox.douyin.com/oauth/client_token/"
-	// workAccessTokenURL 企业douyin获取access_token的接口
-	// workAccessTokenURL = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=%s&corpsecret=%s"
-	// // CacheKeyOfficialAccountPrefix douyin公众号cache key前缀
-	// CacheKeyOfficialAccountPrefix = "gowechat_officialaccount_"
-	// // CacheKeyMiniProgramPrefix 小程序cache key前缀
-	// CacheKeyMiniProgramPrefix = "gowechat_miniprogram_"
-	// // CacheKeyWorkPrefix 企业douyincache key前缀
-	// CacheKeyWorkPrefix = "gowechat_work_"
-	CacheKeyPrefix = "douyin_"
+	CacheKeyPrefix        = "douyin_"
 )
 
 var Headers = map[string]string{
