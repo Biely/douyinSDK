@@ -44,6 +44,7 @@ func HTTPGetContext(ctx context.Context, uri string, header map[string]string) (
 	if err != nil {
 		return nil, err
 	}
+	request.Header.Set("Content-Type", "application/json;charset=utf-8")
 	for key, value := range header {
 		request.Header.Set(key, value)
 	}
@@ -74,7 +75,7 @@ func HTTPPostContext(ctx context.Context, uri string, data []byte, header map[st
 	if err != nil {
 		return nil, err
 	}
-
+	request.Header.Set("Content-Type", "application/json;charset=utf-8")
 	for key, value := range header {
 		request.Header.Set(key, value)
 	}
@@ -124,8 +125,8 @@ func PostJSONContext(ctx context.Context, uri string, obj interface{}, header ma
 }
 
 // PostJSON post json 数据请求
-func PostJSON(uri string, obj interface{}) ([]byte, error) {
-	return PostJSONContext(context.Background(), uri, obj)
+func PostJSON(uri string, obj interface{}, header map[string]string) ([]byte, error) {
+	return PostJSONContext(context.Background(), uri, obj, header)
 }
 
 // PostJSONWithRespContentType post json 数据请求，且返回数据类型
