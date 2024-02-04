@@ -4,6 +4,7 @@ go 1.19
 
 require (
 	github.com/go-redis/redis/v8 v8.11.5
+	github.com/google/go-querystring v1.1.0
 	golang.org/x/crypto v0.18.0
 )
 
