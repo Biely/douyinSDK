@@ -74,10 +74,10 @@ func (shop *Shop) GetShopList(param *ShopQuery) (*ShopList, error) {
 	if err != nil {
 		return nil, err
 	}
-	if res != nil {
-		err = fmt.Errorf(string(res))
-		return nil, err
-	}
+	// if res != nil {
+	// 	err = fmt.Errorf(string(res))
+	// 	return nil, err
+	// }
 	shopList := ShopList{}
 	rep := response.Response{}
 	rep.Data = &shopList
