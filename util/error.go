@@ -36,11 +36,11 @@ func DecodeWithError(response []byte, obj interface{}, apiName string) error {
 	if !responseObj.IsValid() {
 		return fmt.Errorf("obj is invalid")
 	}
-	data := responseObj.Elem().FieldByName("Data")
+	data := responseObj.Elem().FieldByName("Data").Elem()
 	if !data.IsValid() || data.Kind() != reflect.Struct {
 		return fmt.Errorf("data is invalid or not struct")
 	}
-	commonError := data.Elem().FieldByName("CommonError")
+	commonError := data.FieldByName("CommonError")
 	if !commonError.IsValid() || commonError.Kind() != reflect.Struct {
 		return fmt.Errorf("commonError is invalid or not struct")
 	}
