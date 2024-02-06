@@ -28,6 +28,7 @@ func NewCommonError(apiName string, code int64, msg string) *CommonError {
 
 // DecodeWithError 将返回值按照解析
 func DecodeWithError(response []byte, obj interface{}, apiName string) error {
+	fmt.Println(string(response))
 	err := json.Unmarshal(response, obj)
 	if err != nil {
 		return fmt.Errorf("json Unmarshal Error, err=%v", err)
