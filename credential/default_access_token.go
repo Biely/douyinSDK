@@ -80,6 +80,7 @@ func (ak *DefaultAccessToken) GetAccessTokenContext(ctx context.Context) (access
 	// 双检，防止重复从douyin服务器获取
 	if val := ak.cache.Get(accessTokenCacheKey); val != nil {
 		if accessToken = val.(string); accessToken != "" {
+			// fmt.Println(err)
 			return
 		}
 	}
@@ -87,6 +88,7 @@ func (ak *DefaultAccessToken) GetAccessTokenContext(ctx context.Context) (access
 	// cache失效，从douyin服务器获取
 	var resAccessToken ResAccessToken
 	if resAccessToken, err = ak.GetAccessTokenDirectly(ctx); err != nil {
+		fmt.Println(err)
 		return
 	}
 
