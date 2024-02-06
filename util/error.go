@@ -40,7 +40,7 @@ func DecodeWithError(response []byte, obj interface{}, apiName string) error {
 	}
 	commonError := responseObj.Elem().FieldByName("CommonError")
 	if !commonError.IsValid() || (commonError.Kind() != reflect.Struct && commonError.Kind() != reflect.Interface) {
-		return fmt.Errorf("commonError is invalid or not struct")
+		return fmt.Errorf("commonError is invalid or not struct %v", commonError)
 	}
 	errCode := commonError.FieldByName("ErrCode")
 	errMsg := commonError.FieldByName("ErrMsg")
