@@ -19,10 +19,10 @@ type Shop struct {
 
 // 请求参数
 type ShopQuery struct {
-	AccountID string `json:"account_id"`
-	PoiID     string `json:"poi_id"`
-	Page      int64  `json:"page"`
-	Size      int64  `json:"size"`
+	AccountID string `json:"account_id" url:"account_id,omitempty"`
+	PoiID     string `json:"poi_id" url:"poi_id,omitempty"`
+	Page      int64  `json:"page" url:"page,omitempty"`
+	Size      int64  `json:"size" url:"size,omitempty"`
 }
 
 type Poi struct {

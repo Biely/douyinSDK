@@ -7,9 +7,10 @@ import (
 )
 
 type CommonError struct {
-	apiName string
-	ErrCode int64  `json:"error_code"`
-	Message string `json:"message"`
+	apiName     string
+	Description string `json:"description"`
+	ErrCode     int64  `json:"error_code"`
+	Message     string `json:"message"`
 }
 
 func (c *CommonError) Error() string {
@@ -35,7 +36,11 @@ func DecodeWithError(response []byte, obj interface{}, apiName string) error {
 	if !responseObj.IsValid() {
 		return fmt.Errorf("obj is invalid")
 	}
-	commonError := responseObj.Elem().FieldByName("CommonError")
+	data := responseObj.Elem().FieldByName("Data")
+	if !data.IsValid() || data.Kind() != reflect.Struct {
+		return fmt.Errorf("Data is invalid or not struct")
+	}
+	commonError := data.Elem().FieldByName("CommonError")
 	if !commonError.IsValid() || commonError.Kind() != reflect.Struct {
 		return fmt.Errorf("commonError is invalid or not struct")
 	}
