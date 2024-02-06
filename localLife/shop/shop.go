@@ -66,11 +66,16 @@ func (shop *Shop) GetShopList(param *ShopQuery) (*ShopList, error) {
 		return nil, err
 	}
 	url := fmt.Sprintf("%v?%v", getShopInfoListURL, params.Encode())
+	fmt.Println(url)
 	header := map[string]string{
 		"access-token": accessToken,
 	}
 	res, err := util.HTTPGet(url, header)
 	if err != nil {
+		return nil, err
+	}
+	if res != nil {
+		err = fmt.Errorf(string(res))
 		return nil, err
 	}
 	shopList := ShopList{}
