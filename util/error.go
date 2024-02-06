@@ -28,18 +28,18 @@ func NewCommonError(apiName string, code int64, msg string) *CommonError {
 
 // DecodeWithError 将返回值按照解析
 func DecodeWithError(response []byte, obj interface{}, apiName string) error {
-	fmt.Println(string(response))
+	// fmt.Println(string(response))
 	err := json.Unmarshal(response, obj)
 	if err != nil {
 		return fmt.Errorf("json Unmarshal Error, err=%v", err)
 	}
 	responseObj := reflect.ValueOf(obj)
-	fmt.Println(responseObj.Elem())
+	// fmt.Println(responseObj.Elem())
 	if !responseObj.IsValid() {
 		return fmt.Errorf("obj is invalid")
 	}
 	data := responseObj.Elem().FieldByName("Data")
-	if !data.IsValid() || data.Kind() != reflect.Struct {
+	if !data.IsValid() || (data.Kind() != reflect.Struct && data.Kind() != reflect.Map) {
 		return fmt.Errorf("data is invalid or not struct %v", data)
 	}
 	commonError := data.FieldByName("CommonError")
