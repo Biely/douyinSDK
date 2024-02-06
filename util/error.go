@@ -34,15 +34,16 @@ func DecodeWithError(response []byte, obj interface{}, apiName string) error {
 		return fmt.Errorf("json Unmarshal Error, err=%v", err)
 	}
 	responseObj := reflect.ValueOf(obj)
-	// fmt.Println(responseObj.Elem())
+	fmt.Println(responseObj.Elem())
 	if !responseObj.IsValid() {
 		return fmt.Errorf("obj is invalid")
 	}
 	data := responseObj.Elem().FieldByName("Data")
-	if !data.IsValid() || (data.Kind() != reflect.Struct && data.Kind() != reflect.Map) {
-		return fmt.Errorf("data is invalid or not struct %v", data.Kind())
+	dataStruct := reflect.ValueOf(data).Elem()
+	if !dataStruct.IsValid() || (dataStruct.Kind() != reflect.Struct && dataStruct.Kind() != reflect.Interface) {
+		return fmt.Errorf("data is invalid or not struct %v", dataStruct.Kind())
 	}
-	commonError := data.FieldByName("CommonError")
+	commonError := dataStruct.FieldByName("CommonError")
 	if !commonError.IsValid() || commonError.Kind() != reflect.Struct {
 		return fmt.Errorf("commonError is invalid or not struct")
 	}
