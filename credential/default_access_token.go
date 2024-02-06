@@ -91,8 +91,16 @@ func (ak *DefaultAccessToken) GetAccessTokenContext(ctx context.Context) (access
 		fmt.Println(err)
 		return
 	}
-
+	if resAccessToken.AccessToken == "" {
+		err = fmt.Errorf("token is nil")
+		return
+	}
+	if resAccessToken.ExpiresIn == 0 {
+		err = fmt.Errorf("ExpiresIn is nil")
+		return
+	}
 	expires := resAccessToken.ExpiresIn - 1500
+
 	err = ak.cache.Set(accessTokenCacheKey, resAccessToken.AccessToken, time.Duration(expires)*time.Second)
 
 	accessToken = resAccessToken.AccessToken
@@ -109,8 +117,13 @@ func (ak *DefaultAccessToken) GetAccessTokenDirectly(ctx context.Context) (resAc
 	if err != nil {
 		return
 	}
-
-	if err = json.Unmarshal(b, &resAccessToken); err != nil {
+	// if b != nil {
+	// 	err = fmt.Errorf(string(b))
+	// 	return
+	// }
+	res := response.Response{}
+	res.Data = &resAccessToken
+	if err = json.Unmarshal(b, &res); err != nil {
 		return
 	}
 
@@ -183,7 +196,7 @@ func (ak *SandBoxAccessToken) GetAccessTokenDirectly(ctx context.Context, forceR
 		return
 	}
 	var res response.Response
-	res.Data = resAccessToken
+	res.Data = &resAccessToken
 	if err = json.Unmarshal(b, &res); err != nil {
 		return
 	}

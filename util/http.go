@@ -44,7 +44,7 @@ func HTTPGetContext(ctx context.Context, uri string, header map[string]string) (
 	if err != nil {
 		return nil, err
 	}
-	request.Header.Set("Content-Type", "application/json;charset=utf-8")
+	request.Header.Set("Content-Type", "application/json")
 	for key, value := range header {
 		request.Header.Set(key, value)
 	}
@@ -75,7 +75,7 @@ func HTTPPostContext(ctx context.Context, uri string, data []byte, header map[st
 	if err != nil {
 		return nil, err
 	}
-	request.Header.Set("Content-Type", "application/json;charset=utf-8")
+	request.Header.Set("Content-Type", "application/json")
 	for key, value := range header {
 		request.Header.Set(key, value)
 	}
@@ -108,7 +108,7 @@ func PostJSONContext(ctx context.Context, uri string, obj interface{}, header ma
 	if err != nil {
 		return nil, err
 	}
-	req.Header.Set("Content-Type", "application/json;charset=utf-8")
+	req.Header.Set("Content-Type", "application/json")
 	for key, value := range header {
 		req.Header.Set(key, value)
 	}
@@ -139,7 +139,7 @@ func PostJSONWithRespContentType(uri string, obj interface{}) ([]byte, string, e
 		return nil, "", err
 	}
 
-	response, err := DefaultHTTPClient.Post(uri, "application/json;charset=utf-8", jsonBuf)
+	response, err := DefaultHTTPClient.Post(uri, "application/json", jsonBuf)
 	if err != nil {
 		return nil, "", err
 	}
