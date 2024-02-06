@@ -4,6 +4,7 @@ import (
 	"github.com/Biely/douyinSDK/credential"
 	"github.com/Biely/douyinSDK/localLife/config"
 	"github.com/Biely/douyinSDK/localLife/context"
+	"github.com/Biely/douyinSDK/localLife/shop"
 )
 
 type LocalLife struct {
@@ -27,4 +28,9 @@ func (localLife *LocalLife) SetAccessTokenHandle(accessTokenHandle credential.Ac
 // GetContext get Context
 func (localLife *LocalLife) GetContext() *context.Context {
 	return localLife.ctx
+}
+
+// 门店管理接口
+func (localLife *LocalLife) GetShop() *shop.Shop {
+	return shop.NewShop(localLife.ctx)
 }
