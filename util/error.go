@@ -37,7 +37,7 @@ func DecodeWithError(response []byte, obj interface{}, apiName string) error {
 	if !responseObj.IsValid() {
 		return fmt.Errorf("obj is invalid")
 	}
-	data := responseObj.Elem().FieldByName("Data").Elem()
+	data := responseObj.Elem().FieldByName("Data")
 	if !data.IsValid() || data.Kind() != reflect.Struct {
 		return fmt.Errorf("data is invalid or not struct %v", data)
 	}
