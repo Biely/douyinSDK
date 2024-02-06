@@ -57,6 +57,7 @@ func NewShop(context *context.Context) *Shop {
 
 func (shop *Shop) GetShopList(param *ShopQuery) (*ShopList, error) {
 	accessToken, err := shop.GetAccessToken()
+	fmt.Println(accessToken)
 	if err != nil {
 		return nil, err
 	}
