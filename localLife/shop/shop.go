@@ -80,11 +80,12 @@ func (shop *Shop) GetShopList(param *ShopQuery) (*ShopList, error) {
 	// }
 	shopList := ShopList{}
 	rep := response.Response{}
-	rep.Data = shopList
+	rep.Data = &shopList
 	// fmt.Println(res)
 	err = util.DecodeWithError(res, &rep, "GetShopList")
 	if err != nil {
 		return nil, err
 	}
+	// mapstructure.Decode(data, commonError)
 	return rep.Data.(*ShopList), err
 }
