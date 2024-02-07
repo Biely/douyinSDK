@@ -34,7 +34,7 @@ func DecodeWithError(response []byte, obj interface{}, apiName string) error {
 		return fmt.Errorf("json Unmarshal Error, err=%v", err)
 	}
 	responseObj := reflect.ValueOf(obj)
-	// fmt.Println(responseObj.Elem())
+	fmt.Println(responseObj.Elem())
 	if !responseObj.IsValid() {
 		return fmt.Errorf("obj is invalid")
 	}
