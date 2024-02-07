@@ -7,7 +7,6 @@ import (
 	"github.com/Biely/douyinSDK/response"
 	"github.com/Biely/douyinSDK/util"
 	"github.com/google/go-querystring/query"
-	"github.com/mitchellh/mapstructure"
 )
 
 const (
