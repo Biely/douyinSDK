@@ -7,6 +7,7 @@ import (
 	"github.com/Biely/douyinSDK/response"
 	"github.com/Biely/douyinSDK/util"
 	"github.com/google/go-querystring/query"
+	"github.com/mitchellh/mapstructure"
 )
 
 const (
@@ -87,9 +88,10 @@ func (shop *Shop) GetShopList(param *ShopQuery) (*ShopList, error) {
 		return nil, fmt.Errorf("decodeWithError is invalid %v", err)
 	}
 	// fmt.Println(rep)
-	// err = mapstructure.Decode(rep.Data, &shopList)
-	// if err != nil {
-	// 	return nil, fmt.Errorf("rep data decode valid %v", err)
-	// }
+
+	err = mapstructure.Decode(rep.Data, &shopList)
+	if err != nil {
+		return nil, fmt.Errorf("rep data decode valid %v", err)
+	}
 	return &shopList, err
 }
