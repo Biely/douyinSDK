@@ -50,9 +50,9 @@ func DecodeWithError(response []byte, obj interface{}, apiName string) error {
 	// 	return fmt.Errorf("dataStruct is invalid or not struct %v", dataStruct)
 	// }
 	commonError := &CommonError{}
-	err = mapstructure.Decode(data, commonError)
+	err = mapstructure.Decode(data.Interface(), commonError)
 	if err != nil {
-		fmt.Println(err.Error())
+		return fmt.Errorf("commonError is invalid or not struct %v", err)
 	}
 	// if !commonError.IsValid() || commonError.Kind() != reflect.Struct {
 	// 	return fmt.Errorf("commonError is invalid or not struct %v", commonError)
