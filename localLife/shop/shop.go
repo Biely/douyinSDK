@@ -87,7 +87,7 @@ func (shop *Shop) GetShopList(param *ShopQuery) (*ShopList, error) {
 	if err != nil {
 		return nil, err
 	}
-	err = mapstructure.Decode(rep, &shopList)
+	err = mapstructure.Decode(rep.Data, &shopList)
 	if err != nil {
 		return nil, err
 	}
