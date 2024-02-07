@@ -89,7 +89,7 @@ func (shop *Shop) GetShopList(param *ShopQuery) (*ShopList, error) {
 	}
 	err = mapstructure.Decode(rep.Data, &shopList)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("rep data decode valid %v", err)
 	}
 	return &shopList, err
 }
