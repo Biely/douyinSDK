@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"reflect"
+
+	"github.com/mitchellh/mapstructure"
 )
 
 type CommonError struct {
@@ -47,20 +49,24 @@ func DecodeWithError(response []byte, obj interface{}, apiName string) error {
 	// if !dataStruct.IsValid() {
 	// 	return fmt.Errorf("dataStruct is invalid or not struct %v", dataStruct)
 	// }
-	commonError := data.FieldByName("CommonError")
-	if !commonError.IsValid() || commonError.Kind() != reflect.Struct {
-		return fmt.Errorf("commonError is invalid or not struct %v", commonError)
+	commonError := &CommonError{}
+	err = mapstructure.Decode(data, &commonError)
+	if err != nil {
+		fmt.Println(err.Error())
 	}
-	errCode := commonError.FieldByName("ErrCode")
-	errMsg := commonError.FieldByName("ErrMsg")
-	if !errCode.IsValid() || !errMsg.IsValid() {
-		return fmt.Errorf("errcode or errmsg is invalid")
-	}
-	if errCode.Int() != 0 {
+	// if !commonError.IsValid() || commonError.Kind() != reflect.Struct {
+	// 	return fmt.Errorf("commonError is invalid or not struct %v", commonError)
+	// }
+	errCode := commonError.ErrCode
+	errMsg := commonError.Message
+	// if !errCode.IsValid() || !errMsg.IsValid() {
+	// 	return fmt.Errorf("errcode or errmsg is invalid")
+	// }
+	if errCode != 0 {
 		return &CommonError{
 			apiName: apiName,
-			ErrCode: errCode.Int(),
-			Message: errMsg.String(),
+			ErrCode: errCode,
+			Message: errMsg,
 		}
 	}
 	return nil
