@@ -34,7 +34,7 @@ func DecodeWithError(response []byte, obj interface{}, apiName string) error {
 		return fmt.Errorf("json Unmarshal Error, err=%v", err)
 	}
 	responseObj := reflect.ValueOf(obj)
-	fmt.Println(responseObj.Elem())
+	// fmt.Println(responseObj.Elem())
 	if !responseObj.IsValid() {
 		return fmt.Errorf("obj is invalid")
 	}
@@ -42,6 +42,7 @@ func DecodeWithError(response []byte, obj interface{}, apiName string) error {
 	if !data.IsValid() || (data.Kind() != reflect.Struct && data.Kind() != reflect.Interface) {
 		return fmt.Errorf("data is invalid or not struct %v", data.Kind())
 	}
+	fmt.Println(data)
 	dataStruct := reflect.ValueOf(data)
 	if !dataStruct.IsValid() {
 		return fmt.Errorf("dataStruct is invalid or not struct %v", dataStruct)
