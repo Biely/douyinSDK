@@ -1,6 +1,7 @@
 package shop
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/Biely/douyinSDK/localLife/context"
@@ -106,19 +107,26 @@ func (shop *Shop) GetShopList(param *ShopQuery) (*ShopList, error) {
 	// }
 	shopList := ShopList{}
 	rep := response.Response{}
-	rep.Data = shopList
+	// rep.Data = shopList
 	// fmt.Println(res)
 	err = util.DecodeWithError(res, &rep, "GetShopList")
 	if err != nil {
 		return nil, fmt.Errorf("decodeWithError is invalid %v", err)
 	}
-
-	list := rep.Data.(ShopList)
+	data, err := json.Marshal(rep.Data)
+	if err != nil {
+		return nil, fmt.Errorf("rep data decode valid %v", err)
+	}
+	err = json.Unmarshal(data, &shopList)
+	if err != nil {
+		return nil, fmt.Errorf("rep data decode valid %v", err)
+	}
+	// list := rep.Data.(ShopList)
 	// fmt.Println(rep)
 
 	// err = mapstructure.Decode(rep.Data, &shopList)
 	// if err != nil {
 	// 	return nil, fmt.Errorf("rep data decode valid %v", err)
 	// }
-	return &list, err
+	return &shopList, err
 }
