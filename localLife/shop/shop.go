@@ -68,7 +68,7 @@ type Pois struct {
 	RootAccount RootAccount `json:"root_account"`
 }
 
-type ShopList struct {
+type ShopData struct {
 	util.CommonError
 	Pois  []Pois `json:"pois"`
 	Total int    `json:"total"`
@@ -82,7 +82,7 @@ func NewShop(context *context.Context) *Shop {
 	return shop
 }
 
-func (shop *Shop) GetShopList(param *ShopQuery) (*ShopList, error) {
+func (shop *Shop) GetShopList(param *ShopQuery) (*ShopData, error) {
 	accessToken, err := shop.GetAccessToken()
 	fmt.Println(accessToken)
 	if err != nil {
@@ -105,9 +105,9 @@ func (shop *Shop) GetShopList(param *ShopQuery) (*ShopList, error) {
 	// 	err = fmt.Errorf(string(res))
 	// 	return nil, err
 	// }
-	shopList := ShopList{}
+	shopList := ShopData{}
 	rep := response.Response{}
-	// rep.Data = shopList
+	rep.Data = ShopData{}
 	// fmt.Println(res)
 	err = util.DecodeWithError(res, &rep, "GetShopList")
 	if err != nil {
