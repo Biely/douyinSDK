@@ -25,6 +25,17 @@ type ShopQuery struct {
 	Size      int64  `json:"size" url:"size,omitempty"`
 }
 
+type ParentAccount struct {
+	AccountType string `json:"account_type"`
+	AccountID   string `json:"account_id"`
+	AccountName string `json:"account_name"`
+}
+type PoiAccount struct {
+	AccountID   string `json:"account_id"`
+	AccountName string `json:"account_name"`
+	AccountType string `json:"account_type"`
+}
+
 type Poi struct {
 	PoiID     string  `json:"poi_id"`
 	PoiName   string  `json:"poi_name"`
@@ -38,7 +49,20 @@ type RootAccount struct {
 	AccountName string `json:"account_name"`
 }
 
+type Account struct {
+	ParentAccount ParentAccount `json:"parent_account"`
+	PoiAccount    PoiAccount    `json:"poi_account"`
+}
+
+//	type Poi struct {
+//		Latitude  float64 `json:"latitude"`
+//		Longitude float64 `json:"longitude"`
+//		PoiID     string  `json:"poi_id"`
+//		PoiName   string  `json:"poi_name"`
+//		Address   string  `json:"address"`
+//	}
 type Pois struct {
+	Account     Account     `json:"account"`
 	Poi         Poi         `json:"poi"`
 	RootAccount RootAccount `json:"root_account"`
 }
@@ -46,7 +70,9 @@ type Pois struct {
 type ShopList struct {
 	util.CommonError
 	Pois  []Pois `json:"pois"`
-	Total int64  `json:"total"`
+	Total int    `json:"total"`
+	// ErrorCode   int    `json:"error_code"`
+	// Description string `json:"description"`
 }
 
 func NewShop(context *context.Context) *Shop {
@@ -86,11 +112,13 @@ func (shop *Shop) GetShopList(param *ShopQuery) (*ShopList, error) {
 	if err != nil {
 		return nil, fmt.Errorf("decodeWithError is invalid %v", err)
 	}
+
+	list := rep.Data.(ShopList)
 	// fmt.Println(rep)
 
 	// err = mapstructure.Decode(rep.Data, &shopList)
 	// if err != nil {
 	// 	return nil, fmt.Errorf("rep data decode valid %v", err)
 	// }
-	return &shopList, err
+	return &list, err
 }
