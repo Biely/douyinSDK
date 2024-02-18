@@ -106,22 +106,27 @@ func (shop *Shop) GetShopList(param *ShopQuery) (*ShopList, error) {
 	// 	return nil, err
 	// }
 	rep := response.Response{}
-	rep.Data = ShopList{}
+	// rep.Data = ShopList{}
 	// fmt.Println(res)
-	// err = util.DecodeWithError(res, &rep, "GetShopList")
-	// if err != nil {
-	// 	return nil, fmt.Errorf("decodeWithError is invalid %v", err)
-	// }
-	err = json.Unmarshal(res, &rep)
+	err = util.DecodeWithError(res, &rep, "GetShopList")
 	if err != nil {
-		return nil, fmt.Errorf("json Unmarshal Error, err=%v", err)
+		return nil, fmt.Errorf("decodeWithError is invalid %v", err)
 	}
-	list := rep.Data.(ShopList)
-	// fmt.Println(rep)
-
-	// err = mapstructure.Decode(rep.Data, &shopList)
+	// err = json.Unmarshal(res, &rep)
 	// if err != nil {
-	// 	return nil, fmt.Errorf("rep data decode valid %v", err)
+	// 	return nil, fmt.Errorf("json Unmarshal Error, err=%v", err)
 	// }
+	// list := rep.Data.(ShopList)
+	// fmt.Println(rep)
+	repData, err := json.Marshal(rep.Data)
+	// err = mapstructure.Decode(rep.Data, &shopList)
+	if err != nil {
+		return nil, fmt.Errorf("rep data encode valid %v", err)
+	}
+	var list ShopList
+	err = json.Unmarshal(repData, &list)
+	if err != nil {
+		return nil, fmt.Errorf("rep data decode valid %v", err)
+	}
 	return &list, err
 }
