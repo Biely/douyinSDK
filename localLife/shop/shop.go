@@ -71,7 +71,7 @@ type Pois struct {
 type ShopList struct {
 	util.CommonError
 	Pois  []Pois `json:"pois"`
-	Total int    `json:"total"`
+	Total int64  `json:"total"`
 	// ErrorCode   int    `json:"error_code"`
 	// Description string `json:"description"`
 }
