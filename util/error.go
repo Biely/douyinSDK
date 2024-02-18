@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/Biely/douyinSDK/response"
 	"github.com/mitchellh/mapstructure"
 )
 
@@ -30,14 +29,14 @@ func NewCommonError(apiName string, code int64, msg string) *CommonError {
 }
 
 // DecodeWithError 将返回值按照解析
-func DecodeWithError(response []byte, obj *response.Response, apiName string) error {
+func DecodeWithError(response []byte, obj interface{}, apiName string) error {
 	// fmt.Println(string(response))
 	err := json.Unmarshal(response, obj)
 	if err != nil {
 		return fmt.Errorf("json Unmarshal Error, err=%v", err)
 	}
 	responseObj := reflect.ValueOf(obj)
-	fmt.Println(responseObj.Elem())
+	// fmt.Println(responseObj.Elem())
 	if !responseObj.IsValid() {
 		return fmt.Errorf("obj is invalid")
 	}
