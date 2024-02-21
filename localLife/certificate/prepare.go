@@ -14,9 +14,9 @@ const (
 )
 
 type CertPrepareRequest struct {
-	EncryptedData string `json:"encrypted_data,omitempty"`
-	Code          string `json:"code,omitempty"`
-	PoiId         string `json:"poi_id"`
+	EncryptedData string `json:"encrypted_data,omitempty" url:"encrypted_data,omitempty"`
+	Code          string `json:"code,omitempty" url:"code,omitempty"`
+	PoiId         string `json:"poi_id" url:"poi_id"`
 }
 
 func (certificate *Certificate) CertificatePrepare(in *CertPrepareRequest) (res interface{}, err error) {
