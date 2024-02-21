@@ -2,6 +2,7 @@ package locallife
 
 import (
 	"github.com/Biely/douyinSDK/credential"
+	"github.com/Biely/douyinSDK/localLife/certificate"
 	"github.com/Biely/douyinSDK/localLife/config"
 	"github.com/Biely/douyinSDK/localLife/context"
 	"github.com/Biely/douyinSDK/localLife/shop"
@@ -33,4 +34,9 @@ func (localLife *LocalLife) GetContext() *context.Context {
 // 门店管理接口
 func (localLife *LocalLife) GetShop() *shop.Shop {
 	return shop.NewShop(localLife.ctx)
+}
+
+// 团购验券接口
+func (localLife *LocalLife) GetCertificate() *certificate.Certificate {
+	return certificate.NewCertificate(localLife.ctx)
 }
