@@ -1,8 +1,10 @@
 package certificate
 
 import (
+	"encoding/json"
 	"fmt"
 
+	"github.com/Biely/douyinSDK/response"
 	"github.com/Biely/douyinSDK/util"
 	"github.com/google/go-querystring/query"
 )
@@ -32,9 +34,14 @@ func (certificate *Certificate) CertificatePrepare(in *CertPrepareRequest) (res 
 	header := map[string]string{
 		"access-token": accessToken,
 	}
-	res, err = util.HTTPGet(url, header)
+	data, err := util.HTTPGet(url, header)
 	if err != nil {
 		return nil, err
 	}
-	return
+	rep := response.Response{}
+	err = json.Unmarshal(data, &rep)
+	if err != nil {
+		return nil, fmt.Errorf("json Unmarshal Error, err=%v", err)
+	}
+	return rep, err
 }
