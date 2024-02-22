@@ -38,6 +38,7 @@ func (certificate *Certificate) CertificatePrepare(in *CertPrepareRequest) (res 
 	if err != nil {
 		return nil, err
 	}
+	fmt.Println(string(data))
 	rep := response.Response{}
 	err = json.Unmarshal(data, &rep)
 	if err != nil {
