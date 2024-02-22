@@ -1,7 +1,6 @@
 package certificate
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"github.com/Biely/douyinSDK/response"
@@ -19,7 +18,47 @@ type CertPrepareRequest struct {
 	PoiId         string `json:"poi_id" url:"poi_id"`
 }
 
-func (certificate *Certificate) CertificatePrepare(in *CertPrepareRequest) (res interface{}, err error) {
+type Amount struct {
+	CouponPayAmount  int `json:"coupon_pay_amount"`
+	ListMarketAmount int `json:"list_market_amount"`
+	OriginalAmount   int `json:"original_amount"`
+	PayAmount        int `json:"pay_amount"`
+}
+type Sku struct {
+	MarketPrice   int    `json:"market_price"`
+	SkuID         string `json:"sku_id"`
+	SoldStartTime int    `json:"sold_start_time"`
+	ThirdSkuID    string `json:"third_sku_id"`
+	Title         string `json:"title"`
+	AccountID     string `json:"account_id"`
+	GrouponType   int    `json:"groupon_type"`
+}
+type Certificates struct {
+	StartTime     int    `json:"start_time"`
+	Amount        Amount `json:"amount"`
+	CertificateID int64  `json:"certificate_id"`
+	EncryptedCode string `json:"encrypted_code"`
+	ExpireTime    int    `json:"expire_time"`
+	Sku           Sku    `json:"sku"`
+}
+type CertificatesV2 struct {
+	StartTime     int    `json:"start_time"`
+	Amount        Amount `json:"amount"`
+	CertificateID int64  `json:"certificate_id"`
+	EncryptedCode string `json:"encrypted_code"`
+	ExpireTime    int    `json:"expire_time"`
+	Sku           Sku    `json:"sku"`
+}
+type PrepareData struct {
+	Certificates   []Certificates   `json:"certificates"`
+	CertificatesV2 []CertificatesV2 `json:"certificates_v2"`
+	OrderID        string           `json:"order_id"`
+	VerifyToken    string           `json:"verify_token"`
+	ErrorCode      int              `json:"error_code"`
+	Description    string           `json:"description"`
+}
+
+func (certificate *Certificate) CertificatePrepare(in *CertPrepareRequest) (*PrepareData, error) {
 	accessToken, err := certificate.GetAccessToken()
 	// fmt.Println(accessToken)
 	if err != nil {
@@ -34,15 +73,17 @@ func (certificate *Certificate) CertificatePrepare(in *CertPrepareRequest) (res 
 	header := map[string]string{
 		"access-token": accessToken,
 	}
-	data, err := util.HTTPGet(url, header)
+	res, err := util.HTTPGet(url, header)
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println(string(data))
+	fmt.Println(string(res))
 	rep := response.Response{}
-	err = json.Unmarshal(data, &rep)
+	rep.Data = PrepareData{}
+	err = util.DecodeWithError(res, &rep, "CertificatePrepare")
 	if err != nil {
-		return nil, fmt.Errorf("json Unmarshal Error, err=%v", err)
+		return nil, fmt.Errorf("decodeWithError is invalid %v", err)
 	}
-	return rep, err
+	fmt.Println(rep)
+	return &PrepareData{}, err
 }
