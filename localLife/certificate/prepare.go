@@ -1,6 +1,7 @@
 package certificate
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/Biely/douyinSDK/response"
@@ -107,7 +108,15 @@ func (certificate *Certificate) CertificatePrepare(in *CertPrepareRequest) (*Pre
 	if err != nil {
 		return nil, fmt.Errorf("decodeWithError is invalid %v", err)
 	}
-
-	fmt.Println(rep)
-	return &PrepareData{}, err
+	repData, err := json.Marshal(rep.Data)
+	if err != nil {
+		return nil, fmt.Errorf("rep data encode valid %v", err)
+	}
+	var prepareData PrepareData
+	err = json.Unmarshal(repData, &prepareData)
+	if err != nil {
+		return nil, fmt.Errorf("rep data decode valid %v", err)
+	}
+	// fmt.Println(rep)
+	return &prepareData, err
 }
