@@ -100,7 +100,7 @@ func (certificate *Certificate) CertificatePrepare(in *CertPrepareRequest) (*Pre
 	if err != nil {
 		return nil, err
 	}
-	// fmt.Println(string(res))
+	fmt.Println(string(res))
 	rep := response.Response{}
 	rep.Data = PrepareData{}
 	// nrep := rep
