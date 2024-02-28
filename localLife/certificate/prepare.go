@@ -14,9 +14,9 @@ const (
 )
 
 type CertPrepareRequest struct {
-	EncryptedData string `json:"encrypted_data,omitempty" url:"encrypted_data,omitempty"`
-	Code          string `json:"code,omitempty" url:"code,omitempty"`
-	PoiId         string `json:"poi_id" url:"poi_id"`
+	EncryptedData string `json:"encrypted_data,omitempty" form:"encrypted_data,omitempty" url:"encrypted_data,omitempty"`
+	Code          string `json:"code,omitempty" form:"code,omitempty" url:"code,omitempty"`
+	PoiId         string `json:"poi_id" form:"poi_id" url:"poi_id"`
 }
 
 type Amount struct {
