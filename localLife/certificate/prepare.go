@@ -19,13 +19,6 @@ type CertPrepareRequest struct {
 	PoiId         string `json:"poi_id" form:"poi_id" url:"poi_id"`
 }
 
-type Amount struct {
-	CouponPayAmount  int32 `json:"coupon_pay_amount"`
-	ListMarketAmount int32 `json:"list_market_amount"`
-	OriginalAmount   int32 `json:"original_amount"`
-	PayAmount        int32 `json:"pay_amount"`
-}
-
 type TimeCardAmount struct {
 	OriginalAmount         int32 `json:"original_amount"`
 	PayAmount              int32 `json:"pay_amount"`
@@ -39,15 +32,6 @@ type TimeCardAmount struct {
 type SerialAmountList struct {
 	SerialNumb int32          `json:"serial_numb"`
 	Amount     TimeCardAmount `json:"amount"`
-}
-type Sku struct {
-	MarketPrice   int32  `json:"market_price"`
-	SkuID         string `json:"sku_id"`
-	SoldStartTime int32  `json:"sold_start_time"`
-	ThirdSkuID    string `json:"third_sku_id"`
-	Title         string `json:"title"`
-	AccountID     string `json:"account_id"`
-	GrouponType   int32  `json:"groupon_type"`
 }
 type Certificates struct {
 	StartTime     int64  `json:"start_time"`
@@ -81,7 +65,7 @@ type PrepareData struct {
 	Description    string           `json:"description"`
 }
 
-func (certificate *Certificate) CertificatePrepare(in *CertPrepareRequest) (*PrepareData, error) {
+func (certificate *Certificate) CertificatePrepare(in *CertPrepareRequest) (interface{}, error) {
 	accessToken, err := certificate.GetAccessToken()
 	// fmt.Println(accessToken)
 	if err != nil {
@@ -118,5 +102,8 @@ func (certificate *Certificate) CertificatePrepare(in *CertPrepareRequest) (*Pre
 		return nil, fmt.Errorf("rep data decode valid %v", err)
 	}
 	// fmt.Println(rep)
+	// if len(prepareData.Certificates) == 0 {
+
+	// }
 	return &prepareData, err
 }
