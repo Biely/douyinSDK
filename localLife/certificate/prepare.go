@@ -65,7 +65,7 @@ type PrepareData struct {
 	Description    string           `json:"description"`
 }
 
-func (certificate *Certificate) CertificatePrepare(in *CertPrepareRequest) (interface{}, error) {
+func (certificate *Certificate) CertificatePrepare(in *CertPrepareRequest) (*PrepareData, error) {
 	accessToken, err := certificate.GetAccessToken()
 	// fmt.Println(accessToken)
 	if err != nil {
@@ -84,7 +84,7 @@ func (certificate *Certificate) CertificatePrepare(in *CertPrepareRequest) (inte
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println(string(res))
+	// fmt.Println(string(res))
 	rep := response.Response{}
 	rep.Data = PrepareData{}
 	// nrep := rep
