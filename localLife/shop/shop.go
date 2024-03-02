@@ -106,7 +106,7 @@ func (shop *Shop) GetShopList(param *ShopQuery) (*ShopList, error) {
 	// 	return nil, err
 	// }
 	rep := response.Response{}
-	// rep.Data = ShopList{}
+	rep.Data = ShopList{}
 	// fmt.Println(res)
 	err = util.DecodeWithError(res, &rep, "GetShopList")
 	if err != nil {

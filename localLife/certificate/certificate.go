@@ -108,7 +108,7 @@ func (certificate *Certificate) GetCertificate(in *GetCertificateRequest) (*Cert
 		return nil, err
 	}
 	rep := response.Response{}
-	// rep.Data = CertificateModel{}
+	rep.Data = CertificateModel{}
 	err = util.DecodeWithError(res, &rep, "GetCertificate")
 	if err != nil {
 		return nil, fmt.Errorf("decodeWithError is invalid %v", err)

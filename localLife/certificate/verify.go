@@ -1,6 +1,7 @@
 package certificate
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/Biely/douyinSDK/response"
@@ -17,7 +18,24 @@ type CertVerifyRequest struct {
 	PoiID          string   `json:"poi_id" form:"poi_id"`
 }
 
-func (certificate *Certificate) CertificateVerify(in *CertVerifyRequest) (rep interface{}, err error) {
+type VerifyResults struct {
+	VerifyID      string `json:"verify_id"`
+	AccountID     string `json:"account_id"`
+	CertificateID string `json:"certificate_id"`
+	Code          string `json:"code"`
+	Msg           string `json:"msg"`
+	OrderID       string `json:"order_id"`
+	OriginCode    string `json:"origin_code"`
+	Result        int    `json:"result"`
+}
+
+type VerifyResultData struct {
+	VerifyResults []VerifyResults `json:"verify_results"`
+	ErrorCode     int             `json:"error_code"`
+	Description   string          `json:"description"`
+}
+
+func (certificate *Certificate) CertificateVerify(in *CertVerifyRequest) (*VerifyResultData, error) {
 	accessToken, err := certificate.GetAccessToken()
 	// fmt.Println(accessToken)
 	if err != nil {
@@ -31,10 +49,20 @@ func (certificate *Certificate) CertificateVerify(in *CertVerifyRequest) (rep in
 		return nil, err
 	}
 	fmt.Println(string(res))
-	rep = response.Response{}
+	rep := response.Response{}
+	rep.Data = VerifyResultData{}
 	err = util.DecodeWithError(res, &rep, "CertVerify")
 	if err != nil {
 		return nil, fmt.Errorf("decodeWithError is invalid %v", err)
 	}
-	return
+	repData, err := json.Marshal(rep.Data)
+	if err != nil {
+		return nil, fmt.Errorf("rep data encode valid %v", err)
+	}
+	var verifyData VerifyResultData
+	err = json.Unmarshal(repData, &verifyData)
+	if err != nil {
+		return nil, fmt.Errorf("rep data decode valid %v", err)
+	}
+	return &verifyData, err
 }
